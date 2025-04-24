@@ -8,7 +8,7 @@ import connect_db from './utils/db.js';
 /* Routes */
 import urlRouter from './routes/url.routes.js';
 import staticRouter from './routes/static.routes.js';
-
+import userRouter from './routes/user.routes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,6 +23,7 @@ app.set('views', path.resolve('./views'));
 
 app.use('/url', urlRouter);
 app.use('/', staticRouter);
+app.use('/user', userRouter);
 
 
 connect_db();
