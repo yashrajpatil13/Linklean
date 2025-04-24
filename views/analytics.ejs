@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linklean</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
+  <div class="bg-white p-6 rounded-lg shadow-md max-w-xl w-full mt-10">
+    <h2 class="text-2xl font-bold text-indigo-600 mb-6 text-center">Check Link Analytics</h2>
+
+    <!-- Form -->
+    <form id="analyticsForm" method="GET" class="flex flex-col sm:flex-row gap-3 mb-6">
+      <input id="shortIdInput" type="text" name="shortId" placeholder="Enter short ID or full URL" class="flex-1 border px-4 py-2 rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400" required />
+      <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg transition text-sm font-medium">
+        View
+      </button>
+    </form>
+
+    <!-- Error Message -->
+    <% if (error) { %>
+    <p class="text-red-500 text-sm text-center mb-4"><%= error %></p>
+    <% } %>
+
+    <!-- Analytics Table -->
+    <% if (analyticsData) { %>
+    <h3 class="text-lg font-semibold mb-3 text-gray-700">Click History:</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-200 text-sm text-gray-700 rounded-md">
+        <thead>
+          <tr class="bg-indigo-100 text-indigo-700">
+            <th class="px-4 py-2 border border-gray-200 text-left">Sr No</th>
+            <th class="px-4 py-2 border border-gray-200 text-left">Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% analyticsData.forEach((elem, idx) => { %>
+          <tr class="<%= idx % 2 === 0 ? 'bg-gray-50' : 'bg-white' %>">
+            <td class="px-4 py-2 border border-gray-200"><%= idx + 1 %></td>
+            <td class="px-4 py-2 border border-gray-200"><%= new Date(elem.timestamp).toLocaleString('en-IN') %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+
+  <script>
+    document.getElementById('analyticsForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const input = document.getElementById('shortIdInput').value.trim();
+        let shortId = input;
+
+        if(input.includes('/')){
+            const parts = input.split('/');
+            shortId = parts[parts.length-1];
+        }
+        window.location.href=`/analytics/${shortId}`;
+    });
+  </script>
+</body>
+
+</html>
