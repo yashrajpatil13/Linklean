@@ -18,20 +18,11 @@ async function handleUsersignUp(req, res){
 async function handleUserlogin(req, res){
     const {email, password} = req.body;
 
-    if(!email || !password){
-        return res.render('login', {err: 'Enter valid credentials'});
-    }
-
-    const user = await User.findOne({email});
+    const user = await User.findOne({email, password});
     if(!user){
-        return res.render('login', {err: 'Invalid email'});
+        return res.render('login', {err: 'Invalid Email or Password'});
     }
-    else if(user.password !== password){
-        return res.render('login', {err: 'Invalid password'});
-    }
-    else{
-        return res.redirect('/home');
-    }
+    return res.redirect('/home');
 }
 
 export {
