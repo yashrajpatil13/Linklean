@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import path from 'path';
+import cookieParser from 'cookie-parser';
+import { isLoggedIn } from './middleware/auth.middleware.js';
 
 import connect_db from './utils/db.js';
 
@@ -16,12 +18,13 @@ const port = process.env.PORT || 3000;
 // Middlewares
 app.use(express.urlencoded({ extended: false })); // To parse req.body
 app.use(express.json()); // TO parse req.body json
+app.use(cookieParser());
 
 // Sub Templating 
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 
-app.use('/url', urlRouter);
+app.use('/url', isLoggedIn, urlRouter);
 app.use('/', staticRouter);
 app.use('/user', userRouter);
 

@@ -21,5 +21,4 @@ router.get('/analytics', (req, res) => {
 
 router.get('/analytics/:shortId', handleAnalytics);
 
-
 export default router;

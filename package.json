@@ -10,11 +10,13 @@
   "author": "Yashraj Patil",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongoose": "^8.13.2",
-    "nanoid": "^5.1.5"
+    "nanoid": "^5.1.5",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
