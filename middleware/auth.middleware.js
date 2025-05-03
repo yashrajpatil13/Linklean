@@ -1,8 +1,7 @@
 import { getUser } from "../utils/auth.js";
 
 async function isLoggedIn(req, res, next){
-    const uid = req.cookie?.uid;
-
+    const uid = req.cookies.uid;
     if(!uid){
         return res.redirect('/login');
     }

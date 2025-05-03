@@ -11,6 +11,7 @@ import connect_db from './utils/db.js';
 import urlRouter from './routes/url.routes.js';
 import staticRouter from './routes/static.routes.js';
 import userRouter from './routes/user.routes.js';
+import analyticsROuter from './routes/analytics.routes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.set('views', path.resolve('./views'));
 
 app.use('/url', isLoggedIn, urlRouter);
 app.use('/', staticRouter);
+app.use('/analytics', isLoggedIn, analyticsROuter);
 app.use('/user', userRouter);
 
 
