@@ -8,7 +8,21 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
+<body class="relative bg-gray-100 flex flex-col items-center justify-center min-h-screen px-4">
+  <% if (loggedIn) { %>
+    <!-- Logout Button -->
+    <div class="absolute top-4 right-4">
+      <form action="/user/logout" method="GET">
+        <button 
+          type="submit" 
+          class="bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-2 rounded-md shadow transition duration-200"
+        >
+          Logout
+        </button>
+      </form>
+    </div>
+  <% } %>
+
   <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg space-y-6">
     <h1 class="text-3xl font-bold text-center text-indigo-600">Linklean</h1>
     <p class="text-center text-gray-500 mb-4">Your Link, Just Lean</p>

@@ -1,6 +1,6 @@
 import User from '../model/user.model.js';
 import {v4 as uuidv4} from 'uuid';
-import { setUser } from '../utils/auth.js';
+import { deleteUser, setUser } from '../utils/auth.js';
  
 async function handleUsersignUp(req, res){
     const {name, email, password} = req.body;
@@ -32,7 +32,22 @@ async function handleUserlogin(req, res){
     return res.redirect('/home');
 }
 
+async function handleUserLogout(req, res){
+    // Clear user cookie
+    // Deleted session record from store
+    
+    const uid = req.cookies.uid;
+
+    if(!uid){
+        return res.redirect('/');
+    }
+    res.clearCookie('uid', { path:'/' });
+    deleteUser(uid);
+    return res.redirect('/login');
+}
+
 export {
     handleUsersignUp,
     handleUserlogin,
+    handleUserLogout,
 }

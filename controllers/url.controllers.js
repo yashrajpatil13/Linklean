@@ -13,6 +13,7 @@ async function handleGenerateNewShortURL(req, res) {
             createdBy: req.user._id
         });
         return res.render('home', {
+            loggedIn: req.cookies.uid ? true : false,
             shortId: shortId
         });
     }

@@ -8,7 +8,12 @@ function getUser(uid){
     return sessionIdToUserMap.get(uid);
 }
 
+function deleteUser(uid){
+    sessionIdToUserMap.delete(uid);
+}
+
 export {
     setUser,
-    getUser
+    getUser,
+    deleteUser,
 }
