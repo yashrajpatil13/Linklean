@@ -1,11 +1,11 @@
 import { getUser } from "../utils/auth.js";
 
 async function isLoggedIn(req, res, next){
-    const uid = req.cookies.uid;
-    if(!uid){
+    const token = req.cookies.token;
+    if(!token){
         return res.redirect('/login');
     }
-    const user = getUser(uid);
+    const user = getUser(token);
     if(!user){
         return res.redirect('/login');
     }

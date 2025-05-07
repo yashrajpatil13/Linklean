@@ -1,6 +1,5 @@
 import User from '../model/user.model.js';
-import {v4 as uuidv4} from 'uuid';
-import { deleteUser, setUser } from '../utils/auth.js';
+import { setUser } from '../utils/auth.js';
  
 async function handleUsersignUp(req, res){
     const {name, email, password} = req.body;
@@ -12,9 +11,11 @@ async function handleUsersignUp(req, res){
         email,
         password
     });
-    const sessionId = uuidv4();
-    setUser(sessionId, {name: name, email: email, _id: user['_id']});
-    res.cookie('uid', sessionId);
+    const jwttoken = setUser({name: name, email: email, _id: user['_id']});
+    res.cookie('token', jwttoken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    });
     return res.redirect('/home');
 }
 
@@ -26,9 +27,11 @@ async function handleUserlogin(req, res){
     if(!user){
         return res.render('login', {err: 'Invalid Email or Password'});
     }
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie('uid', sessionId)
+    const jwttoken = setUser({...user, _id:user._id.toString()});
+    res.cookie('token', jwttoken, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+    });
     return res.redirect('/home');
 }
 
@@ -36,13 +39,15 @@ async function handleUserLogout(req, res){
     // Clear user cookie
     // Deleted session record from store
     
-    const uid = req.cookies.uid;
+    const token = req.cookies.token;
 
-    if(!uid){
+    if(!token){
         return res.redirect('/');
     }
-    res.clearCookie('uid', { path:'/' });
-    deleteUser(uid);
+    res.clearCookie('token', { 
+        path:'/',
+        httpOnly: true,
+    });
     return res.redirect('/login');
 }
 

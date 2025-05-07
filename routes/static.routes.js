@@ -11,7 +11,7 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/home', (req, res) => {
-    return res.render('home', {loggedIn: req.cookies.uid ? true : false });
+    return res.render('home', {loggedIn: req.cookies.token ? true : false });
 });
 
 
